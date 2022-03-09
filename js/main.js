@@ -23,18 +23,19 @@ const controller = {
   left: false,
   right: false,
   up: false,
-  keyListener: function (event) {
+  keyListener: function(event) {
     let key_state = (event.type == "keydown") ? true : false;
     switch (event.keyCode) {
-      case 37: // left arrow
+      case 65: // a key (left)
         controller.left = key_state;
         break;
-      case 38: // up arrow
+      case 87: // w key (up)
         controller.up = key_state;
         break;
-      case 39: // right arrow
+      case 68: // d key (right)
         controller.right = key_state;
         break;
     }
   }
 };
+

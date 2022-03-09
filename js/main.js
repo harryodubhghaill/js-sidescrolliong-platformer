@@ -41,7 +41,7 @@ const controller = {
 };
 
 // Updates player character with direction info from controller
-function loop() {
+const loop = function() {
   if (controller.up && square.jumping == false) {
     square.yVelocity -= 20;
     square.jumping = true;
@@ -74,20 +74,26 @@ function loop() {
   }
 
   // Creates the backdrop for each frame
-  context.fillStyle = "#201A23";
-  context.fillRect(0, 0, 1220, 400); // x, y, width, height
+  ctx.fillStyle = "#201A23";
+  ctx.fillRect(0, 0, 1220, 400); // x, y, width, height
   // Creates and fills the cube for each frame
-  context.fillStyle = "#8DAA9D"; // hex for cube color
-  context.beginPath();
-  context.rect(square.x, square.y, square.width, square.height);
-  context.fill();
+  ctx.fillStyle = "#8DAA9D"; // hex for cube color
+  ctx.beginPath();
+  ctx.rect(square.x, square.y, square.width, square.height);
+  ctx.fill();
   // Creates the "ground" for each frame
-  context.strokeStyle = "#2E2532";
-  context.lineWidth = 30;
-  context.beginPath();
-  context.moveTo(0, 385);
-  context.lineTo(1220, 385);
-  context.stroke();
+  ctx.strokeStyle = "#2E2532";
+  ctx.lineWidth = 30;
+  ctx.beginPath();
+  ctx.moveTo(0, 385);
+  ctx.lineTo(1220, 385);
+  ctx.stroke();
+
+  // Updates when called to tell the browser it is ready to draw again
+  window.requestAnimationFrame(loop);
 };
 
-loop()
+window.addEventListener("keydown", controller.keyListener);
+window.addEventListener("keyup", controller.keyListener);
+// Start animation loop
+window.requestAnimationFrame(loop);

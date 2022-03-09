@@ -95,23 +95,30 @@ const loop = function() {
   // Creates the backdrop for each frame
   ctx.fillStyle = "#201A23";
   ctx.fillRect(0, 0, 1220, 400); // x, y, width, height
+
   // Creates and fills the cube for each frame
   ctx.fillStyle = "#8DAA9D"; // hex for cube color
   ctx.beginPath();
   ctx.rect(square.x, square.y, square.width, square.height);
   ctx.fill();
+
   // Create the obstacles for each frame
   // Set the standard obstacle height
-  const height = 200 * Math.cos(Math.PI / 6);
+  const height = 170;
   ctx.fillStyle = "#FBF5F3"; // hex for triangle color
   obXCoors.forEach((obXCoor) => {
+    // ctx.rect(obXCoor, 385, 20, 20);
+    // ctx.stroke();
+    // ctx.fill();
+    // console.log(obXCoors);
     ctx.beginPath();
     // (x = random, y = coor. on "ground")
     ctx.moveTo(obXCoor, 385);
     // (x = ^random + 20, y = coor. on "ground")
     ctx.lineTo(obXCoor + 20, 385);
     // (x = ^random + 10, y = peak of triangle)
-    ctx.lineTo(obXCoor + 10, 510 - height);
+    ctx.lineTo(obXCoor + 20, 510 - height);
+    ctx.lineTo(obXCoor, 510 - height);
     ctx.closePath();
     ctx.fill();
   });

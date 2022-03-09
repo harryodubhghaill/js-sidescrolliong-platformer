@@ -1,13 +1,11 @@
 * {
   margin: none;
   padding: none;
-  border: none;
 }
 
-p {
-  color: red;
-}
-
-.second {
-  color: green;
+body {
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  background-color: darkgrey;
 }

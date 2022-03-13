@@ -1,5 +1,5 @@
 class Sprite {
-  constructor({image, position, velocity, jumping = false}){
+  constructor({image, position, velocity, jumping}){
     this.position = position
     this.velocity = velocity
     this.jumping = jumping

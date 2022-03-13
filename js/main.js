@@ -100,10 +100,12 @@ const animate = function() {
   }
 
   // creates loop at either side of canvas for character to circle around
-  if (playerChar.position.x < -20) {
-    playerChar.position.x = ctx.canvas.width;
-  } else if (playerChar.position.x > ctx.canvas.width) {
-    playerChar.position.x = -20;
+  if (playerChar.position.x < 20 && controller.left) {
+    playerChar.position.x = 20;
+    platformObject.position.x += 10
+  } else if (playerChar.position.x > ctx.canvas.width/ 2 && controller.right) {
+    playerChar.position.x = ctx.canvas.width/ 2;
+    platformObject.position.x -= 10
   }
 
   // Creates the backdrop for each frame

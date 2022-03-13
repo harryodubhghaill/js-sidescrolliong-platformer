@@ -5,8 +5,8 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-ctx.canvas.height = 400;
-ctx.canvas.width = 1220;
+ctx.canvas.height = innerHeight;
+ctx.canvas.width = innerWidth;
 
 
 // Defines Player Character
@@ -76,7 +76,7 @@ const loop = function() {
 
   // Creates the backdrop for each frame
   ctx.fillStyle = "#201A23";
-  ctx.fillRect(0, 0, 1220, 400); // x, y, width, height
+  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); // x, y, width, height
 
   const platforms = new Image()
   platforms.src = '/img/platformMap.png'

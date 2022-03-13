@@ -8,23 +8,6 @@ const ctx = canvas.getContext("2d");
 ctx.canvas.height = 400;
 ctx.canvas.width = 1220;
 
-// Start the frame count at 1 (also level 1)
-let frameCount = 1;
-// Set the number of obstacles to match the current "level" number
-let obCount = frameCount;
-// Create a collection to hold the randomly generated x coordinates
-const obXCoors = [];
-
-// Create the obstacles for each frame
-const nextFrame = () => {
-  // increase the frame / "level" count
-  frameCount++;
-  for (let i = 0; i < obCount; i++) {
-    // Randomly generate the x coordinate for the top corner start of each triangle
-    obXCoor = Math.floor(Math.random() * (1165 - 140 + 1) + 140);
-    obXCoors.push(obXCoor);
-  }
-}
 
 // Defines Player Character
 const square = {
@@ -89,7 +72,6 @@ const loop = function() {
     square.x = 1220;
   } else if (square.x > 1220) {
     square.x = -20;
-    nextFrame();
   }
 
   // Creates the backdrop for each frame
@@ -110,22 +92,6 @@ const loop = function() {
   ctx.rect(square.x, square.y, square.width, square.height);
   ctx.fill();
 
-  // Create the obstacles for each frame
-  // Set the standard obstacle height
-  const height = 170;
-  ctx.fillStyle = "#FBF5F3"; // hex for triangle color
-  obXCoors.forEach((obXCoor) => {
-    ctx.beginPath();
-    // (x = random, y = coor. on "ground")
-    ctx.moveTo(obXCoor, 385);
-    // (x = ^random + 20, y = coor. on "ground")
-    ctx.lineTo(obXCoor + 20, 385);
-    // (x = ^random + 10, y = peak of triangle)
-    ctx.lineTo(obXCoor + 20, 510 - height);
-    ctx.lineTo(obXCoor, 510 - height);
-    ctx.closePath();
-    ctx.fill();
-  });
   // Creates the "ground" for each frame
   ctx.strokeStyle = "#2E2532";
   ctx.lineWidth = 30;

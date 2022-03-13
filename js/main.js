@@ -18,15 +18,15 @@ const ctx = canvas.getContext("2d");
 
 
 // Defines Player Character
-const square = {
-  height: 32,
-  jumping: true,
-  width: 32,
-  x: 0,
-  xVelocity: 0,
-  y: 0,
-  yVelocity: 0
-};
+// const square = {
+//   height: 32,
+//   jumping: true,
+//   width: 32,
+//   x: 0,
+//   xVelocity: 0,
+//   y: 0,
+//   yVelocity: 0
+// };
 
 // Gets input data from users keyboard
 const controller = {
@@ -48,39 +48,48 @@ const controller = {
     }
   }
 };
+const playerImage = new Image()
+playerImage.src = '/img/player.png'
+
+playerImage.onload = drawPlayer()
+
+function drawPlayer() {
+  ctx.drawImage(playerImage, 0, 0)
+}
+
 
 // Updates player character with direction info from controller
 const loop = function() {
-  if (controller.up && square.jumping == false) {
-    square.yVelocity -= 20;
-    square.jumping = true;
-  }
-  if (controller.left) {
-    square.xVelocity -= 0.5;
-  }
-  if (controller.right) {
-    square.xVelocity += 0.5;
-  }
+  // if (controller.up && square.jumping == false) {
+  //   square.yVelocity -= 20;
+  //   square.jumping = true;
+  // }
+  // if (controller.left) {
+  //   square.xVelocity -= 0.5;
+  // }
+  // if (controller.right) {
+  //   square.xVelocity += 0.5;
+  // }
   
-  square.yVelocity += 1.5; // gravity
-  square.x += square.xVelocity;
-  square.y += square.yVelocity;
-  square.xVelocity *= 0.9; // friction
-  square.yVelocity *= 0.9; // friction
+  // square.yVelocity += 1.5; // gravity
+  // square.x += square.xVelocity;
+  // square.y += square.yVelocity;
+  // square.xVelocity *= 0.9; // friction
+  // square.yVelocity *= 0.9; // friction
 
-  // if the square is falling below floor line, then:
-  if (square.y > ctx.canvas.height - 16 - 32) {
-    square.jumping = false;
-    square.y = ctx.canvas.height - 16 - 32;
-    square.yVelocity = 0;
-  }
+  // // if the square is falling below floor line, then:
+  // if (square.y > ctx.canvas.height - 16 - 32) {
+  //   square.jumping = false;
+  //   square.y = ctx.canvas.height - 16 - 32;
+  //   square.yVelocity = 0;
+  // }
 
-  // creates loop at either side of canvas for character to circle around
-  if (square.x < -20) {
-    square.x = ctx.canvas.width;
-  } else if (square.x > ctx.canvas.width) {
-    square.x = -20;
-  }
+  // // creates loop at either side of canvas for character to circle around
+  // if (square.x < -20) {
+  //   square.x = ctx.canvas.width;
+  // } else if (square.x > ctx.canvas.width) {
+  //   square.x = -20;
+  // }
 
   // Creates the backdrop for each frame
   ctx.fillStyle = "#201A23";
@@ -94,11 +103,13 @@ const loop = function() {
     ctx.drawImage(platforms, 0, -900)
   }
 
+  playerImage.onload = drawPlayer()
+
   // Creates and fills the cube for each frame
-  ctx.fillStyle = "#8DAA9D"; // hex for cube color
-  ctx.beginPath();
-  ctx.rect(square.x, square.y, square.width, square.height);
-  ctx.fill();
+  // ctx.fillStyle = "#8DAA9D"; // hex for cube color
+  // ctx.beginPath();
+  // ctx.rect(square.x, square.y, square.width, square.height);
+  // ctx.fill();
 
   // Updates when called to tell the browser it is ready to draw again
   window.requestAnimationFrame(loop);

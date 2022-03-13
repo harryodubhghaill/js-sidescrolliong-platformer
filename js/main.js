@@ -16,6 +16,40 @@ window.addEventListener('resize', resize)
 // Get canvas context
 const ctx = canvas.getContext("2d");
 
+const playerImage = new Image()
+playerImage.src = '/img/player.png'
+
+const platforms = new Image()
+platforms.src = '/img/platformMap.png'
+
+const playerChar = new Sprite({
+  position: {
+    x: 0,
+    y: 0
+  },
+
+  velocity: {
+    x: 0,
+    y: 0
+  },
+
+  image: playerImage
+})
+
+const platformObject = new Sprite({
+  position: {
+    x: 0,
+    y: -900
+  },
+
+  velocity: {
+    x: 0,
+    y: 0
+  },
+
+  image: platforms
+})
+
 
 // Defines Player Character
 // const square = {
@@ -48,14 +82,14 @@ const controller = {
     }
   }
 };
-const playerImage = new Image()
-playerImage.src = '/img/player.png'
 
-playerImage.onload = drawPlayer()
+// function drawPlayer() {
+//   ctx.drawImage(playerImage, 0, 0)
+// }
 
-function drawPlayer() {
-  ctx.drawImage(playerImage, 0, 0)
-}
+// function drawPlatforms() {
+//   ctx.drawImage(platforms, 0, -900)
+// }
 
 
 // Updates player character with direction info from controller
@@ -95,15 +129,10 @@ const loop = function() {
   ctx.fillStyle = "#201A23";
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); // x, y, width, height
 
-  const platforms = new Image()
-  platforms.src = '/img/platformMap.png'
+  console.log(platformObject)
+  platformObject.draw()
 
-  platforms.onload = drawPlatforms()
-  function drawPlatforms() {
-    ctx.drawImage(platforms, 0, -900)
-  }
-
-  playerImage.onload = drawPlayer()
+  playerChar.draw()
 
   // Creates and fills the cube for each frame
   // ctx.fillStyle = "#8DAA9D"; // hex for cube color

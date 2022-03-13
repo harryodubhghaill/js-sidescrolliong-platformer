@@ -61,9 +61,9 @@ const loop = function() {
   square.yVelocity *= 0.9; // friction
 
   // if the square is falling below floor line, then:
-  if (square.y > 386 - 16 - 32) {
+  if (square.y > ctx.canvas.height - 16 - 32) {
     square.jumping = false;
-    square.y = 386 - 16 - 32;
+    square.y = ctx.canvas.height - 16 - 32;
     square.yVelocity = 0;
   }
 

@@ -96,6 +96,14 @@ const loop = function() {
   ctx.fillStyle = "#201A23";
   ctx.fillRect(0, 0, 1220, 400); // x, y, width, height
 
+  const platforms = new Image()
+  platforms.src = '/img/platformMap.png'
+
+  platforms.onload = drawPlatforms()
+  function drawPlatforms() {
+    ctx.drawImage(platforms, 0, -900)
+  }
+
   // Creates and fills the cube for each frame
   ctx.fillStyle = "#8DAA9D"; // hex for cube color
   ctx.beginPath();
@@ -107,10 +115,6 @@ const loop = function() {
   const height = 170;
   ctx.fillStyle = "#FBF5F3"; // hex for triangle color
   obXCoors.forEach((obXCoor) => {
-    // ctx.rect(obXCoor, 385, 20, 20);
-    // ctx.stroke();
-    // ctx.fill();
-    // console.log(obXCoors);
     ctx.beginPath();
     // (x = random, y = coor. on "ground")
     ctx.moveTo(obXCoor, 385);
@@ -129,7 +133,6 @@ const loop = function() {
   ctx.moveTo(0, 385);
   ctx.lineTo(1220, 385);
   ctx.stroke();
-  console.log(frameCount)
 
   // Updates when called to tell the browser it is ready to draw again
   window.requestAnimationFrame(loop);

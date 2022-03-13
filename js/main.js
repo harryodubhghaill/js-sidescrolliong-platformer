@@ -41,7 +41,7 @@ const playerChar = new Sprite({
 const platformObject = new Sprite({
   position: {
     x: 0,
-    y: -900
+    y: -650
   },
 
   velocity: {
@@ -64,6 +64,9 @@ const controller = {
         controller.left = key_state;
         break;
       case 87: // w key (up)
+        controller.up = key_state;
+        break;
+      case 32: // w key (up)
         controller.up = key_state;
         break;
       case 68: // d key (right)
@@ -92,14 +95,14 @@ const animate = function() {
   playerChar.velocity.x *= 0.9; // friction
   playerChar.velocity.y *= 0.9; // friction
 
-  // if the square is falling below floor line, then:
+  // if the player is falling below floor line, then:
   if (playerChar.position.y > ctx.canvas.height - 500) {
     playerChar.jumping = false;
     playerChar.position.y = ctx.canvas.height - 500;
     playerChar.velocity.y = 0;
   }
 
-  // creates loop at either side of canvas for character to circle around
+  // creates side scrolling effect
   if (playerChar.position.x < 20 && controller.left) {
     playerChar.position.x = 20;
     platformObject.position.x += 10

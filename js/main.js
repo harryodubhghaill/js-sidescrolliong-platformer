@@ -3,10 +3,18 @@
 
 // Get canvas from DOM
 const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
 
-ctx.canvas.height = innerHeight;
-ctx.canvas.width = innerWidth;
+// resize canvas based on current viewport
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+resize()
+window.addEventListener('resize', resize)
+
+// Get canvas context
+const ctx = canvas.getContext("2d");
 
 
 // Defines Player Character
@@ -69,8 +77,8 @@ const loop = function() {
 
   // creates loop at either side of canvas for character to circle around
   if (square.x < -20) {
-    square.x = 1220;
-  } else if (square.x > 1220) {
+    square.x = ctx.canvas.width;
+  } else if (square.x > ctx.canvas.width) {
     square.x = -20;
   }
 
@@ -91,14 +99,6 @@ const loop = function() {
   ctx.beginPath();
   ctx.rect(square.x, square.y, square.width, square.height);
   ctx.fill();
-
-  // Creates the "ground" for each frame
-  ctx.strokeStyle = "#2E2532";
-  ctx.lineWidth = 30;
-  ctx.beginPath();
-  ctx.moveTo(0, 385);
-  ctx.lineTo(1220, 385);
-  ctx.stroke();
 
   // Updates when called to tell the browser it is ready to draw again
   window.requestAnimationFrame(loop);

@@ -17,12 +17,12 @@ window.addEventListener('resize', resize)
 const ctx = canvas.getContext("2d");
 
 const playerImage = new Image()
-playerImage.src = '/img/player.png'
+playerImage.src = '/img/knightspritesheet.png'
 
 const platforms = new Image()
-platforms.src = '/img/platformMap.png'
+platforms.src = '/img/platform-map.png'
 
-const playerChar = new Sprite({
+const playerChar = new Player({
   position: {
     x: 0,
     y: 0
@@ -35,13 +35,20 @@ const playerChar = new Sprite({
 
   image: playerImage,
 
+  crop : {
+    xCropStart: 0,
+    yCropStart: 0,
+    xCropEnd: playerImage.width / 8,
+    yCropEnd: playerImage.height,
+  },
+
   jumping: true
 })
 
-const platformObject = new Sprite({
+const platformObject = new Map({
   position: {
     x: 0,
-    y: -650
+    y: -265
   },
 
   velocity: {
@@ -49,7 +56,7 @@ const platformObject = new Sprite({
     y: 0
   },
 
-  image: platforms
+  image: platforms,
 })
 
 // Gets input data from users keyboard
@@ -118,8 +125,6 @@ const animate = function() {
   platformObject.draw()
 
   playerChar.draw()
-
-  console.log(playerChar.position.y)
 
   // Updates when called to tell the browser it is ready to draw again
   window.requestAnimationFrame(animate);

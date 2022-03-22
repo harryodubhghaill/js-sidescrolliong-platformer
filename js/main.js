@@ -16,6 +16,39 @@ window.addEventListener('resize', resize)
 // Get canvas context
 const ctx = canvas.getContext("2d");
 
+// create collision data
+const collisionMap = [];
+for (let i = 0; i < collisions.length; i+=100) {
+  collisionMap.push(collisions.slice(i, 100 + i));
+}
+
+const offset = {
+  x: 0,
+  y: -265
+}
+
+// intantiate boundary objects
+
+const boundaries = []
+
+collisionMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    if (symbol === 375)
+      boundaries.push(
+        new Boundary({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y
+          }
+        })
+      )
+  })
+})
+
+console.log(boundaries)
+
+
+// Add images and instantiate classes
 const playerImage = new Image()
 playerImage.src = '/img/knightspritesheet.png'
 
@@ -47,8 +80,8 @@ const playerChar = new Player({
 
 const platformObject = new Map({
   position: {
-    x: 0,
-    y: -265
+    x: offset.x,
+    y: offset.y
   },
 
   velocity: {
@@ -123,6 +156,10 @@ const animate = function() {
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); // x, y, width, height
 
   platformObject.draw()
+
+  boundaries.forEach(boundary => {
+    boundary.draw()
+  })
 
   playerChar.draw()
 

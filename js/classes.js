@@ -38,3 +38,23 @@ class Player {
       )
   }
 }
+
+class Boundary {
+  static width = 32
+  static height = 32
+  constructor({position}) {
+    this.position = position
+    this.width = 32
+    this.height = 32
+  }
+
+  draw() {
+    ctx.fillStyle = 'red'
+    ctx.fillRect(
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    )
+  }
+}

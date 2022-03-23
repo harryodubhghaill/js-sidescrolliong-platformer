@@ -114,14 +114,14 @@ const controller = {
 
 let movables = [platformObject, ...boundaries]
 
-// function rectangularCollision({rectangle1, rectangle2}) {
-//   return(
-//     rectangle1.position.x + (rectangle1.width - 16) >= rectangle2.position.x &&
-//     (rectangle1.position.x - 16) <= rectangle2.position.x + rectangle2.width &&
-//     rectangle1.position.y <= rectangle2.position.y &&
-//     rectangle1.position.y + rectangle1.height >= rectangle2.position.y + rectangle2.height 
-//   )
-// }
+function rectangularCollision({rectangle1, rectangle2}) {
+  return(
+    rectangle1.position.x + (rectangle1.width - 16) >= rectangle2.position.x &&
+    (rectangle1.position.x - 16) <= rectangle2.position.x + rectangle2.width &&
+    rectangle1.position.y <= rectangle2.position.y &&
+    rectangle1.position.y + rectangle1.height >= rectangle2.position.y + rectangle2.height 
+  )
+}
 // Updates player character with direction info from controller
 const animate = function() {
 
@@ -132,17 +132,18 @@ const animate = function() {
   })
 
   // creates side scrolling effect
-  if (playerChar.position.x < 20 && controller.left) {
+  if (playerChar.position.x < 20 && controller.left && platformObject.position.x <= -10) {
     playerChar.position.x = 20;
     movables.forEach((movable) => {
       movable.position.x += 10
     })
-  } else if (playerChar.position.x > ctx.canvas.width/ 2 && controller.right) {
+  } else if (playerChar.position.x > ctx.canvas.width/ 2 && controller.right && platformObject.position.x >= -2150) {
     playerChar.position.x = ctx.canvas.width/ 2;
     movables.forEach((movable) => {
       movable.position.x -= 10
     })
   }
+  console.log(platformObject.position.x)
 
   playerChar.update()
 

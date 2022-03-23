@@ -45,13 +45,29 @@ class Player {
 
     this.velocity.y += gravity; // gravity
     this.position.y += this.velocity.y;
-    this.position.x += this.velocity.x;
     this.velocity.x *= 0.9; // friction
 
+    for (let i = 0; i < boundaries.length; i++) {
+      let boundary = boundaries[i];
+      if (this.position.y + this.height <= boundary.position.y &&
+          this.position.y + this.height + this.velocity.y >= boundary.position.y &&
+          this.position.x + this.width >= boundary.position.x &&
+          this.position.x <= boundary.position.x + boundary.width) {
+        console.log("collision", boundary.position.y, this.position.y)
+        gravity = 0
+        this.velocity.y = 0
+        this.position.y = boundary.position.y - 52
+        this.jumping = false
+        break
+      }
+    }
+
     if (controller.up && this.jumping == false) {
+      gravity = 1.5
       this.velocity.y -= 20;
       this.jumping = true;
     }
+
     if (controller.left) {
       this.velocity.x -= 0.5;
       this.position.x += this.velocity.x;
@@ -61,18 +77,19 @@ class Player {
       this.position.x += this.velocity.x;
     }
 
-    boundaries.forEach((boundary) => {
+    // boundaries.forEach((boundary) => {
 
-      if (this.position.y + this.height <= boundary.position.y &&
-        this.position.y + this.height + this.velocity.y >= boundary.position.y &&
-        this.position.x + this.width >= boundary.position.x &&
-        this.position.x <= boundary.position.x + boundary.width) {
-        console.log("collision")
-        gravity = 0
-        this.velocity.y = 0
-        this.position.y = boundary.position.y - 52
-      } 
-    })
+    //   if (this.position.y + this.height <= boundary.position.y &&
+    //     this.position.y + this.height + this.velocity.y >= boundary.position.y &&
+    //     this.position.x + this.width >= boundary.position.x &&
+    //     this.position.x <= boundary.position.x + boundary.width) {
+    //     console.log("collision")
+    //     gravity = 0
+    //     this.velocity.y = 0
+    //     this.position.y = boundary.position.y - 52
+    //     this.jumping = false
+    //   } 
+    // })
     
   }
 }

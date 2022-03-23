@@ -67,7 +67,7 @@ const playerChar = new Player({
 
   image: playerImage,
 
-  jumping: true,
+  jumping: false,
 
   frames: {
     max: 8
@@ -102,7 +102,7 @@ const controller = {
       case 87: // w key (up)
         controller.up = key_state;
         break;
-      case 32: // w key (up)
+      case 32: // space (up)
         controller.up = key_state;
         break;
       case 68: // d key (right)
@@ -114,14 +114,14 @@ const controller = {
 
 let movables = [platformObject, ...boundaries]
 
-function rectangularCollision({rectangle1, rectangle2}) {
-  return(
-    rectangle1.position.x + (rectangle1.width - 16) >= rectangle2.position.x &&
-    (rectangle1.position.x - 16) <= rectangle2.position.x + rectangle2.width &&
-    rectangle1.position.y <= rectangle2.position.y &&
-    rectangle1.position.y + rectangle1.height >= rectangle2.position.y + rectangle2.height 
-  )
-}
+// function rectangularCollision({rectangle1, rectangle2}) {
+//   return(
+//     rectangle1.position.x + (rectangle1.width - 16) >= rectangle2.position.x &&
+//     (rectangle1.position.x - 16) <= rectangle2.position.x + rectangle2.width &&
+//     rectangle1.position.y <= rectangle2.position.y &&
+//     rectangle1.position.y + rectangle1.height >= rectangle2.position.y + rectangle2.height 
+//   )
+// }
 // Updates player character with direction info from controller
 const animate = function() {
 
@@ -143,7 +143,8 @@ const animate = function() {
       movable.position.x -= 10
     })
   }
-  console.log(platformObject.position.x)
+
+  console.log(playerChar.jumping)
 
   playerChar.update()
 

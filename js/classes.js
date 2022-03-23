@@ -37,6 +37,34 @@ class Player {
       this.image.height
       )
   }
+
+  update() {
+    this.draw();
+
+    if (controller.up && playerChar.jumping == false) {
+      playerChar.velocity.y -= 20;
+      playerChar.jumping = true;
+    }
+    if (controller.left) {
+      playerChar.velocity.x -= 0.5;
+    }
+    if (controller.right) {
+      playerChar.velocity.x += 0.5;
+    }
+    
+    playerChar.velocity.y += 1.5; // gravity
+    playerChar.position.x += playerChar.velocity.x;
+    playerChar.position.y += playerChar.velocity.y;
+    playerChar.velocity.x *= 0.9; // friction
+    playerChar.velocity.y *= 0.9; // friction
+  
+    // if the player is falling below floor line, then:
+    if (playerChar.position.y > ctx.canvas.height - 270) {
+      playerChar.jumping = false;
+      playerChar.position.y = ctx.canvas.height - 270;
+      playerChar.velocity.y = 0;
+    }
+  }
 }
 
 class Boundary {

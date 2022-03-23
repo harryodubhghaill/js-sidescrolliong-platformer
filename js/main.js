@@ -45,8 +45,6 @@ collisionMap.forEach((row, i) => {
   })
 })
 
-console.log(boundaries)
-
 
 // Add images and instantiate classes
 const playerImage = new Image()
@@ -68,14 +66,11 @@ const playerChar = new Player({
 
   image: playerImage,
 
-  crop : {
-    xCropStart: 0,
-    yCropStart: 0,
-    xCropEnd: playerImage.width / 8,
-    yCropEnd: playerImage.height,
-  },
+  jumping: true,
 
-  jumping: true
+  frames: {
+    max: 8
+  }
 })
 
 const platformObject = new Map({
@@ -116,52 +111,57 @@ const controller = {
   }
 };
 
+let movables = [platformObject, ...boundaries]
+
+function rectangularCollision({rectangle1, rectangle2}) {
+  return(
+    rectangle1.position.x + (rectangle1.width - 16) >= rectangle2.position.x &&
+    (rectangle1.position.x - 16) <= rectangle2.position.x + rectangle2.width &&
+    rectangle1.position.y <= rectangle2.position.y &&
+    rectangle1.position.y + rectangle1.height >= rectangle2.position.y + rectangle2.height 
+  )
+}
 // Updates player character with direction info from controller
 const animate = function() {
-  if (controller.up && playerChar.jumping == false) {
-    playerChar.velocity.y -= 20;
-    playerChar.jumping = true;
-  }
-  if (controller.left) {
-    playerChar.velocity.x -= 0.5;
-  }
-  if (controller.right) {
-    playerChar.velocity.x += 0.5;
-  }
-  
-  playerChar.velocity.y += 1.5; // gravity
-  playerChar.position.x += playerChar.velocity.x;
-  playerChar.position.y += playerChar.velocity.y;
-  playerChar.velocity.x *= 0.9; // friction
-  playerChar.velocity.y *= 0.9; // friction
 
-  // if the player is falling below floor line, then:
-  if (playerChar.position.y > ctx.canvas.height - 500) {
-    playerChar.jumping = false;
-    playerChar.position.y = ctx.canvas.height - 500;
-    playerChar.velocity.y = 0;
+  platformObject.draw()
+
+  boundaries.forEach((boundary) => {
+    boundary.draw()
+  })
+
+  for (let i=0; i < boundaries.length; i++) {
+    const boundary = boundaries[i];
+    if (
+      rectangularCollision({
+        rectangle1: playerChar,
+        rectangle2: {
+          ...boundary,
+          position: {
+            x: boundary.position.x,
+            y: boundary.position.y
+          }
+        }
+      })
+    ) {
+      console.log("Colliding")
+    }
   }
 
   // creates side scrolling effect
   if (playerChar.position.x < 20 && controller.left) {
     playerChar.position.x = 20;
-    platformObject.position.x += 10
+    movables.forEach((movable) => {
+      movable.position.x += 10
+    })
   } else if (playerChar.position.x > ctx.canvas.width/ 2 && controller.right) {
     playerChar.position.x = ctx.canvas.width/ 2;
-    platformObject.position.x -= 10
+    movables.forEach((movable) => {
+      movable.position.x -= 10
+    })
   }
 
-  // Creates the backdrop for each frame
-  ctx.fillStyle = "#201A23";
-  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); // x, y, width, height
-
-  platformObject.draw()
-
-  boundaries.forEach(boundary => {
-    boundary.draw()
-  })
-
-  playerChar.draw()
+  playerChar.update()
 
   // Updates when called to tell the browser it is ready to draw again
   window.requestAnimationFrame(animate);

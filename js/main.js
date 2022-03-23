@@ -46,6 +46,8 @@ collisionMap.forEach((row, i) => {
   })
 })
 
+console.log(boundaries)
+
 
 // Add images and instantiate classes
 const playerImage = new Image()
@@ -143,8 +145,6 @@ const animate = function() {
       movable.position.x -= 10
     })
   }
-
-  console.log(playerChar.jumping)
 
   playerChar.update()
 

@@ -10,6 +10,7 @@ class Map {
   }
 }
 
+let gravity = 1.5;
 class Player {
   constructor({image, position, velocity, jumping, frames = { max: 1}}){
     this.position = position
@@ -39,33 +40,43 @@ class Player {
   }
 
   update() {
+
     this.draw();
 
-    if (controller.up && playerChar.jumping == false) {
-      playerChar.velocity.y -= 20;
-      playerChar.jumping = true;
+    this.velocity.y += gravity; // gravity
+    this.position.y += this.velocity.y;
+    this.position.x += this.velocity.x;
+    this.velocity.x *= 0.9; // friction
+
+    if (controller.up && this.jumping == false) {
+      this.velocity.y -= 20;
+      this.jumping = true;
     }
     if (controller.left) {
-      playerChar.velocity.x -= 0.5;
+      this.velocity.x -= 0.5;
+      this.position.x += this.velocity.x;
     }
     if (controller.right) {
-      playerChar.velocity.x += 0.5;
+      this.velocity.x += 0.5;
+      this.position.x += this.velocity.x;
     }
+
+    boundaries.forEach((boundary) => {
+
+      if (this.position.y + this.height <= boundary.position.y &&
+        this.position.y + this.height + this.velocity.y >= boundary.position.y &&
+        this.position.x + this.width >= boundary.position.x &&
+        this.position.x <= boundary.position.x + boundary.width) {
+        console.log("collision")
+        gravity = 0
+        this.velocity.y = 0
+        this.position.y = boundary.position.y - 52
+      } 
+    })
     
-    playerChar.velocity.y += 1.5; // gravity
-    playerChar.position.x += playerChar.velocity.x;
-    playerChar.position.y += playerChar.velocity.y;
-    playerChar.velocity.x *= 0.9; // friction
-    playerChar.velocity.y *= 0.9; // friction
-  
-    // if the player is falling below floor line, then:
-    if (playerChar.position.y > ctx.canvas.height - 270) {
-      playerChar.jumping = false;
-      playerChar.position.y = ctx.canvas.height - 270;
-      playerChar.velocity.y = 0;
-    }
   }
 }
+
 
 class Boundary {
   static width = 32

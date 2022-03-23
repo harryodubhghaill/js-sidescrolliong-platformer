@@ -16,15 +16,16 @@ window.addEventListener('resize', resize)
 // Get canvas context
 const ctx = canvas.getContext("2d");
 
-// create collision data
-const collisionMap = [];
-for (let i = 0; i < collisions.length; i+=100) {
-  collisionMap.push(collisions.slice(i, 100 + i));
-}
-
 const offset = {
   x: 0,
   y: -265
+}
+
+// create collision data
+
+const collisionMap = [];
+for (let i = 0; i < collisions.length; i+=100) {
+  collisionMap.push(collisions.slice(i, 100 + i));
 }
 
 // intantiate boundary objects
@@ -55,7 +56,7 @@ platforms.src = '/img/platform-map.png'
 
 const playerChar = new Player({
   position: {
-    x: 0,
+    x: 50,
     y: 0
   },
 
@@ -113,14 +114,14 @@ const controller = {
 
 let movables = [platformObject, ...boundaries]
 
-function rectangularCollision({rectangle1, rectangle2}) {
-  return(
-    rectangle1.position.x + (rectangle1.width - 16) >= rectangle2.position.x &&
-    (rectangle1.position.x - 16) <= rectangle2.position.x + rectangle2.width &&
-    rectangle1.position.y <= rectangle2.position.y &&
-    rectangle1.position.y + rectangle1.height >= rectangle2.position.y + rectangle2.height 
-  )
-}
+// function rectangularCollision({rectangle1, rectangle2}) {
+//   return(
+//     rectangle1.position.x + (rectangle1.width - 16) >= rectangle2.position.x &&
+//     (rectangle1.position.x - 16) <= rectangle2.position.x + rectangle2.width &&
+//     rectangle1.position.y <= rectangle2.position.y &&
+//     rectangle1.position.y + rectangle1.height >= rectangle2.position.y + rectangle2.height 
+//   )
+// }
 // Updates player character with direction info from controller
 const animate = function() {
 
@@ -129,24 +130,6 @@ const animate = function() {
   boundaries.forEach((boundary) => {
     boundary.draw()
   })
-
-  for (let i=0; i < boundaries.length; i++) {
-    const boundary = boundaries[i];
-    if (
-      rectangularCollision({
-        rectangle1: playerChar,
-        rectangle2: {
-          ...boundary,
-          position: {
-            x: boundary.position.x,
-            y: boundary.position.y
-          }
-        }
-      })
-    ) {
-      console.log("Colliding")
-    }
-  }
 
   // creates side scrolling effect
   if (playerChar.position.x < 20 && controller.left) {
